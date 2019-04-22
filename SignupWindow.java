@@ -6,7 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
-class SignupWindow extends Frame implements WindowListener, ActionListener
+class SignupWindow extends Base implements ActionListener
 {
     private Register register;
     private Font font;
@@ -221,7 +221,10 @@ class SignupWindow extends Frame implements WindowListener, ActionListener
             String phone = phoneTf.getText();
             String email = emailTf.getText();
             String bgroup = selectedBGroup;
-            System.out.println(username+" "+password+" "+phone+" "+email+" "+bgroup);
+            //System.out.println(username+" "+password+" "+phone+" "+email+" "+bgroup);
+            String sql="insert into User (Name,AddressArea,PhoneNumber,Email,IsDonor,Password) values("+username+","+""+","+phone+","+email+","+'1'+","+password+")";
+            System.out.println(sql);
+            dbfactory.updateDB(sql);
         }
     }
 
