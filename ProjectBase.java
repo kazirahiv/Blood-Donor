@@ -1,3 +1,5 @@
+import register.*;
+import frames.*;
 public class ProjectBase{
     public static void main(String str[]){
 		Register r=new Register();

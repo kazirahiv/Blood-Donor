@@ -1,3 +1,5 @@
+package frames;
+import repository.*;
 import java.awt.*;
 import java.awt.event.*;
 public abstract class Base extends Frame implements WindowListener

@@ -1,3 +1,5 @@
+package register;
+import frames.*;
 public class Register{
     public IndexWindow indexWindow;
     public SignupWindow signupWindow;

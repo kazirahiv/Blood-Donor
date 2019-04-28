@@ -1,3 +1,4 @@
+package repository;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -46,7 +47,7 @@ public class DataAccess{
         }
         return rs;
    }
-    public int updateDB(String sql){
+    public boolean updateDB(String sql){
         int numOfRowsUpdated=0;
         try{
             stmt = conn.createStatement(); 
@@ -56,6 +57,6 @@ public class DataAccess{
         catch(Exception ex){
             ex.printStackTrace();
         }
-        return numOfRowsUpdated;
+        return true;
     }
 }

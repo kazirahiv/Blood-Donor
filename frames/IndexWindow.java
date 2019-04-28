@@ -1,8 +1,10 @@
+package frames;
+import register.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-class IndexWindow extends Base implements ActionListener
+public class IndexWindow extends Base implements ActionListener
 {
     private Register register;
     public TextField search;
