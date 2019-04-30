@@ -8,10 +8,8 @@ public class IndexWindow extends Base implements ActionListener
 {
     private Register register;
     public TextField search;
-    public Button searchBtn;
     public Label titleLabel;
-    public Button alreadyADonor;
-    public Button beADonor;
+    public Button searchBtn, alreadyADonor, beADonor;
     private Font font;
     //Constructor to invoke the window
     public IndexWindow(Register r)
@@ -48,11 +46,13 @@ public class IndexWindow extends Base implements ActionListener
         beADonor.setFont(new Font("Consolas", Font.BOLD, 12));
         beADonor.setBounds(528,366, 100, 30);
         beADonor.addActionListener(this);
+        
         //loginButton
         alreadyADonor = new Button("Already A Donor");
         alreadyADonor.setFont(new Font("Consolas", Font.BOLD, 12));
         alreadyADonor.setBounds(637,366, 150, 30);
-        
+        alreadyADonor.addActionListener(this);
+
         //adding Components to frame
         add(titleLabel);
         add(search);
@@ -83,6 +83,11 @@ public class IndexWindow extends Base implements ActionListener
         {
             this.setVisible(false);
             register.signupWindow.setVisible(true);
+        }
+        if(command.equals(alreadyADonor.getLabel()))
+        {
+            this.setVisible(false);
+            register.loginWindow.setVisible(true);
         }
     }
     public void windowActivated(WindowEvent e){}

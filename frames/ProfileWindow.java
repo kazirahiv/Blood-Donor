@@ -8,18 +8,18 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class SignupWindow extends Base implements ActionListener {
+public class ProfileWindow extends Base implements ActionListener {
     private Register register;
     private Font font;
-    private Button signup, back;
+    public Button signup, back;
     private TextField userNameTf, passwordTf, phoneTf, emailTf, addressTf;
     private Label titleLabel, usernameLabel, phoneLabel, emailLabel,addressLabel, passwordLabel, notificationLabel;
     private Checkbox APlus, AMinus, ABPlus, ABMinus, BPlus, BMinus, OPlus, OMinus;
     private CheckboxGroup bloodGroups;
     private String selectedBGroup = null;
 
-    public SignupWindow(Register r) {
-        super("Blood Donor Sign Up");
+    public ProfileWindow(Register r) {
+        super("User Profile");
         this.register = r;
         // Setting Window Size
         setSize(800, 420);
@@ -32,7 +32,7 @@ public class SignupWindow extends Base implements ActionListener {
 
 
         // titlelabel
-        titleLabel = new Label("Sign Up Here");
+        titleLabel = new Label("Profile");
         titleLabel.setFont(new Font("Consolas", Font.BOLD, 30));
         titleLabel.setBounds(50, 68, 250, 40);
 
@@ -272,7 +272,6 @@ public class SignupWindow extends Base implements ActionListener {
                 }
 			}
 		});
-        
         // SignupButton
         signup = new Button("Sign Up");
         signup.setFont(new Font("Consolas", Font.BOLD, 12));
@@ -280,11 +279,11 @@ public class SignupWindow extends Base implements ActionListener {
         signup.addActionListener(this);
 
         //back button 
+
         back = new Button("Back");
         back.setFont(new Font("Consolas", Font.BOLD, 12));
         back.setBounds(487, 380, 150, 30);
         back.addActionListener(this);
-
         // adding Components to frame
         add(titleLabel);
         add(usernameLabel);
@@ -344,6 +343,7 @@ public class SignupWindow extends Base implements ActionListener {
             System.out.println("S");
         }
 
+
         if (command.equals(signup.getLabel())) {
             String username = userNameTf.getText();
             String password = passwordTf.getText();
@@ -356,8 +356,7 @@ public class SignupWindow extends Base implements ActionListener {
             {
                 validationPass = true;
             }
-
-            //sql command as string
+            // System.out.println(username+" "+password+" "+phone+" "+email+" "+bgroup);
             String sql = "insert into `User` (`Name`,`AddressArea`,`PhoneNumber`,`Email`,`IsDonor`,`Password`) VALUES ("
                     + "'" + username + "'" + "," + "'"+ address +"'" + "," + "'" + phone + "'" + "," + "'" + email + "'" + "," + '1'
                     + "," + "'" + password + "'" + ");";

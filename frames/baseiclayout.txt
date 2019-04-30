@@ -1,0 +1,102 @@
+package frames;
+import register.*;
+import java.awt.*;
+import java.awt.Rectangle;
+import java.awt.event.*;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class LogInWindow extends Base implements ActionListener {
+    private Register register;
+    private Font font;
+    public Button signup, back;
+    private Label titleLabel, emailLabel;
+
+
+    public LogInWindow(Register r) {
+        super("Log In");
+        this.register = r;
+
+        // Setting Window Size
+        setSize(800, 420);
+
+        // Setting Font
+        font = new Font("Consolas", Font.PLAIN, 20);
+
+        // Setting Layout As null because we wont use a layout
+        setLayout(null);
+
+        // adding Window Listener
+        addWindowListener(this);
+
+
+        // titlelabel
+        titleLabel = new Label("Profile");
+        titleLabel.setFont(new Font("Consolas", Font.BOLD, 30));
+        titleLabel.setBounds(50, 68, 250, 40);
+
+        //back button 
+        back = new Button("Back");
+        back.setFont(new Font("Consolas", Font.BOLD, 12));
+        back.setBounds(487, 380, 150, 30);
+        back.addActionListener(this);
+
+
+        //add components 
+
+        add(titleLabel);
+        add(back);
+
+        // Will be using this to get
+        // coordinate in window for placing components
+        addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+                System.out.println(x + "," + y);
+            }
+        });
+    }
+
+    public void paint(Graphics g) {
+        g.drawLine(50, 112, 327, 112);
+        g.drawLine(50, 114, 329, 114);
+        //g.drawRect(562, 56, 200, 40);
+    }
+
+    // Close on hitting Window Close Button
+    public void windowClosing(WindowEvent we) {
+        System.out.println("Window is closing");
+        System.exit(0);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        if (command.equals(back.getLabel()))
+        {
+            this.setVisible(false);
+            register.indexWindow.setVisible(true);
+        }
+    }
+
+    public void windowActivated(WindowEvent e) {
+    }
+
+    public void windowClosed(WindowEvent e) {
+    }
+
+    public void windowDeactivated(WindowEvent e) {
+    }
+
+    public void windowDeiconified(WindowEvent e) {
+    }
+
+    public void windowIconified(WindowEvent e) {
+    }
+
+    public void windowOpened(WindowEvent e) {
+    }
+
+}
