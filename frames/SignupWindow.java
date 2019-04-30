@@ -358,9 +358,9 @@ public class SignupWindow extends Base implements ActionListener {
             }
 
             //sql command as string
-            String sql = "insert into `User` (`Name`,`AddressArea`,`PhoneNumber`,`Email`,`IsDonor`,`Password`) VALUES ("
+            String sql = "insert into `User` (`Name`,`AddressArea`,`PhoneNumber`,`Email`,`IsDonor`,`Password`, `BloodGroup`) VALUES ("
                     + "'" + username + "'" + "," + "'"+ address +"'" + "," + "'" + phone + "'" + "," + "'" + email + "'" + "," + '1'
-                    + "," + "'" + password + "'" + ");";
+                    + "," + "'" + password + "'" +","+ "'" + selectedBGroup + "'" + ");";
 
             // modfied update db. will return true if database is updated with new value;
             if(validationPass)

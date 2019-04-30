@@ -1,5 +1,6 @@
 package frames;
 import register.*;
+import entities.*;
 import java.awt.*;
 import java.awt.Rectangle;
 import java.awt.event.*;
@@ -10,16 +11,19 @@ import java.awt.event.MouseEvent;
 
 public class ProfileWindow extends Base implements ActionListener {
     private Register register;
+    private Donor donor;
     private Font font;
-    public Button signup, back;
+    private Button signup, back;
     private TextField userNameTf, passwordTf, phoneTf, emailTf, addressTf;
     private Label titleLabel, usernameLabel, phoneLabel, emailLabel,addressLabel, passwordLabel, notificationLabel;
     private Checkbox APlus, AMinus, ABPlus, ABMinus, BPlus, BMinus, OPlus, OMinus;
     private CheckboxGroup bloodGroups;
     private String selectedBGroup = null;
 
-    public ProfileWindow(Register r) {
+    public ProfileWindow(Donor d, Register r) {
         super("User Profile");
+        System.out.println("This Is Profile Window");
+        this.donor = d;
         this.register = r;
         // Setting Window Size
         setSize(800, 420);
@@ -30,7 +34,7 @@ public class ProfileWindow extends Base implements ActionListener {
         // adding Window Listener
         addWindowListener(this);
 
-
+        
         // titlelabel
         titleLabel = new Label("Profile");
         titleLabel.setFont(new Font("Consolas", Font.BOLD, 30));
@@ -42,7 +46,7 @@ public class ProfileWindow extends Base implements ActionListener {
         usernameLabel.setBounds(56, 130, 150, 20);
         
         // username input
-        userNameTf = new TextField();
+        userNameTf = new TextField(donor.name);
         userNameTf.setFont(new Font("Consolas", Font.PLAIN, 20));
         userNameTf.setBounds(58, 161, 260, 30);
         userNameTf.addKeyListener(new KeyAdapter() {
@@ -68,7 +72,7 @@ public class ProfileWindow extends Base implements ActionListener {
         passwordLabel.setBounds(356, 130, 150, 20);
 
         // password input
-        passwordTf = new TextField();
+        passwordTf = new TextField(donor.password);
         passwordTf.setFont(new Font("Consolas", Font.PLAIN, 20));
         passwordTf.setEchoChar('*');
         passwordTf.setBounds(358, 161, 260, 30);
@@ -183,16 +187,53 @@ public class ProfileWindow extends Base implements ActionListener {
             }
         });
 
+        //set checkbox from user 
+        if(donor.bloodGroup!= null)
+        {
+            if(donor.bloodGroup.equals("A+"))
+            {
+                APlus.setState(true);
+            }
+            else if(donor.bloodGroup.equals("A-"))
+            {
+                AMinus.setState(true);
+            }
+            else if(donor.bloodGroup.equals("AB+"))
+            {
+                ABPlus.setState(true);
+            }  
+            else if(donor.bloodGroup.equals("AB-"))
+            {
+                ABMinus.setState(true);
+            }
+            else if(donor.bloodGroup.equals("B+"))
+            {
+                BPlus.setState(true);
+            }
+            else if(donor.bloodGroup.equals("B-"))
+            {
+                BMinus.setState(true);
+            }
+            else if(donor.bloodGroup.equals("O+"))
+            {
+                OPlus.setState(true);
+            }
+            else if(donor.bloodGroup.equals("O-"))
+            {
+                OMinus.setState(true);
+            }
+        }
+        
+
         // phone label
         phoneLabel = new Label("Phone");
         phoneLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
         phoneLabel.setBounds(56, 310, 150, 20);
+
         // phone input
-        phoneTf = new TextField();
+        phoneTf = new TextField(donor.phoneNumber);
         phoneTf.setFont(new Font("Consolas", Font.PLAIN, 20));
         phoneTf.setBounds(56, 340, 260, 30);
-
-
         phoneTf.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent EVT) {
                 String value = phoneTf.getText();
@@ -223,13 +264,15 @@ public class ProfileWindow extends Base implements ActionListener {
                     notificationLabel.setVisible(false);
                 }
 			}
-		});
+        });
+        
         // email label
         emailLabel = new Label("E-Mail");
         emailLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
         emailLabel.setBounds(356, 236, 150, 20);
+        
         // email input
-        emailTf = new TextField();
+        emailTf = new TextField(donor.email);
         emailTf.setFont(new Font("Consolas", Font.PLAIN, 20));
         emailTf.setBounds(356, 260, 260, 30);
         emailTf.addKeyListener(new KeyAdapter() {
@@ -247,13 +290,15 @@ public class ProfileWindow extends Base implements ActionListener {
                     notificationLabel.setVisible(false);
                 }
 			}
-		});
+        });
+        
         // address label
         addressLabel = new Label("Address");
         addressLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
         addressLabel.setBounds(356, 310, 150, 20);
+        
         // address input
-        addressTf = new TextField();
+        addressTf = new TextField(donor.addressArea);
         addressTf.setFont(new Font("Consolas", Font.PLAIN, 20));
         addressTf.setBounds(356, 340, 260, 30);
         addressTf.addKeyListener(new KeyAdapter() {
@@ -271,9 +316,10 @@ public class ProfileWindow extends Base implements ActionListener {
                     notificationLabel.setVisible(false);
                 }
 			}
-		});
+        });
+        
         // SignupButton
-        signup = new Button("Sign Up");
+        signup = new Button("Edit");
         signup.setFont(new Font("Consolas", Font.BOLD, 12));
         signup.setBounds(637, 380, 150, 30);
         signup.addActionListener(this);
@@ -284,6 +330,7 @@ public class ProfileWindow extends Base implements ActionListener {
         back.setFont(new Font("Consolas", Font.BOLD, 12));
         back.setBounds(487, 380, 150, 30);
         back.addActionListener(this);
+
         // adding Components to frame
         add(titleLabel);
         add(usernameLabel);
@@ -340,11 +387,11 @@ public class ProfileWindow extends Base implements ActionListener {
         {
             this.setVisible(false);
             register.indexWindow.setVisible(true);
-            System.out.println("S");
         }
 
 
         if (command.equals(signup.getLabel())) {
+            int id = donor.id;
             String username = userNameTf.getText();
             String password = passwordTf.getText();
             String phone = phoneTf.getText();
@@ -356,22 +403,22 @@ public class ProfileWindow extends Base implements ActionListener {
             {
                 validationPass = true;
             }
-            // System.out.println(username+" "+password+" "+phone+" "+email+" "+bgroup);
-            String sql = "insert into `User` (`Name`,`AddressArea`,`PhoneNumber`,`Email`,`IsDonor`,`Password`) VALUES ("
-                    + "'" + username + "'" + "," + "'"+ address +"'" + "," + "'" + phone + "'" + "," + "'" + email + "'" + "," + '1'
-                    + "," + "'" + password + "'" + ");";
-
+            // System.out.println(username+" "+password+" "+phone+" "+email+" "+bgroup);          
+            String editSql = "UPDATE `User` SET `Name`='"+username+"', `AddressArea`='"+address+"', `PhoneNumber`='"+phone
+            +"', `Email`='"+email+"', `IsDonor`='0', `Password`='"+ password +"', `BloodGroup`='"+bgroup+"' WHERE `id`='"+id+"'; ";
+            
+            
             // modfied update db. will return true if database is updated with new value;
             if(validationPass)
             {
-                if (dbfactory.updateDB(sql)) {
+                if (dbfactory.updateDB(editSql)) {
                     //clear text inputs 
-                    userNameTf.setText("");
-                    passwordTf.setText("");
-                    phoneTf.setText("");
-                    emailTf.setText("");
-                    addressTf.setText("");
-                    bloodGroups.setSelectedCheckbox(null);
+                    // userNameTf.setText("");
+                    // passwordTf.setText("");
+                    // phoneTf.setText("");
+                    // emailTf.setText("");
+                    // addressTf.setText("");
+                    // bloodGroups.setSelectedCheckbox(null);
                     validationPass = false;
 
                     notificationLabel.setBackground(Color.GREEN);

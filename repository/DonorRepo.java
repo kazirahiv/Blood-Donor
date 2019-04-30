@@ -19,18 +19,19 @@ public class DonorRepo
 			DataAccess da = new DataAccess("root", "abc-1234","BloodDonor");
 			ResultSet rs=da.getData(sql);
 			Donor donor=null;
-        	String name,addressArea,phoneNumber,email,password;
-	    	int id,isDonor;
+      String name,addressArea,phoneNumber,email,password, bloodGroup;
+	    int id,isDonor;
 			while(rs.next())
 			{
-				id=rs.getInt("id");
-				name=rs.getString("Name");
-        addressArea=rs.getString("AddressArea");
+				id = rs.getInt("id");
+				name = rs.getString("Name");
+        addressArea = rs.getString("AddressArea");
         phoneNumber = rs.getString("PhoneNumber");
         email = rs.getString("Email");
         isDonor = rs.getInt("IsDonor");
-				password=rs.getString("Password");	
-				donor = new Donor(id,name,addressArea,phoneNumber,email,password);
+				password = rs.getString("Password");
+				bloodGroup = rs.getString("BloodGroup");	
+				donor = new Donor(id,name,addressArea,phoneNumber,email,password, bloodGroup);
 				addDonor(donor);
 			}
 		}

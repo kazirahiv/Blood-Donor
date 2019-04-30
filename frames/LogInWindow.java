@@ -1,5 +1,5 @@
 package frames;
-
+import frames.ProfileWindow;
 import register.*;
 import bindmodels.*;
 import java.awt.*;
@@ -168,6 +168,13 @@ public class LogInWindow extends Base implements ActionListener {
                     {
                         System.out.println("Authentication Successful");
                         donor.donor.print();
+                        if(donor.donor == null){ System.out.println("Donor is null");}
+                        ProfileWindow profile = new ProfileWindow(donor.donor, register);
+                        this.setVisible(false);
+                        profile.setVisible(true);
+                        //register.profileWindow.setDonor(donor.donor);
+                        //register.profileWindow.setVisible(true);
+                        
                     }
                     else
                     {
@@ -178,12 +185,11 @@ public class LogInWindow extends Base implements ActionListener {
                 }
                 catch(Exception ex)
                 {
-                    System.out.println("Database Error!");
+                    System.out.println(ex);
                 }
             }
             
-            //this.setVisible(false);
-            //register.indexWindow.setVisible(true);
+            
         }
     }
 

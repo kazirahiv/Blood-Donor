@@ -5,19 +5,20 @@ import java.lang.*;
 
 public class Donor
 {
-	private String name,addressArea,phoneNumber,email,password;
-	int id,isDonor;
+	public String name,addressArea,phoneNumber,email,password, bloodGroup;
+	public int id,isDonor;
 	
 	public Donor(){}
 
-	public Donor(int id, String name, String addressArea, String phoneNumber, String email, String password)
+	public Donor(int id, String name, String addressArea, String phoneNumber, String email, String password, String bloodGroup)
 	{
         this.id = id;
         this.name = name;
         this.addressArea = addressArea;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.password = password;
+		this.password = password;
+		this.bloodGroup = bloodGroup;
 	}
 
 
@@ -28,6 +29,7 @@ public class Donor
 		System.out.println("Phone Number "+phoneNumber);
 		System.out.println("Email "+email);
 		System.out.println("Password "+password);
+		System.out.println("BloodGroup "+bloodGroup);
 	}
 	
     //public void setUserId(String id){this.id = id;}
