@@ -9,7 +9,7 @@ public class IndexWindow extends Base implements ActionListener
 {
     private Register register;
     public TextField search;
-    public Label titleLabel;
+    public Label titleLabel, notificationLabel;
     public Button searchBtn, alreadyADonor, beADonor;
     private Font font;
     //Constructor to invoke the window
@@ -34,8 +34,18 @@ public class IndexWindow extends Base implements ActionListener
         //search input 
         search = new TextField();
         search.setBounds(243, 193, 300, 30);
-        search.setText("Search Here .....");
+        search.setText("Search Here ....");
         search.setFont(new Font("Consolas", Font.PLAIN, 12));
+        search.addMouseListener(new MouseListener() {
+            public void mouseClicked(MouseEvent e) {}
+            public void mousePressed(MouseEvent e) {}
+            public void mouseReleased(MouseEvent e) {}
+            public void mouseEntered(MouseEvent e) 
+            {
+                search.setText("");
+            }
+            public void mouseExited(MouseEvent e) {}
+        });
 
         //SearchButton
         searchBtn = new Button("Search");
@@ -56,12 +66,21 @@ public class IndexWindow extends Base implements ActionListener
         alreadyADonor.setBounds(637,366, 150, 30);
         alreadyADonor.addActionListener(this);
 
+        // notification Label
+        notificationLabel = new Label("");
+        notificationLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
+        notificationLabel.setBounds(576, 66, 200, 20);
+        notificationLabel.setBackground(new Color(110,224,44));
+        notificationLabel.setVisible(false);
+
         //adding Components to frame
         add(titleLabel);
         add(search);
         add(searchBtn);
         add(beADonor);
         add(alreadyADonor);
+        add(notificationLabel);
+
         //Will be using this to get
         //coordinate  in window for placing components
         addMouseListener(new MouseAdapter() {
@@ -71,6 +90,7 @@ public class IndexWindow extends Base implements ActionListener
                 System.out.println(x+","+y);
             }
         });
+
     }
     //Close on hitting Window Close Button
     public void windowClosing(WindowEvent we){
@@ -87,28 +107,70 @@ public class IndexWindow extends Base implements ActionListener
             this.setVisible(false);
             register.signupWindow.setVisible(true);
         }
+
         if(command.equals(alreadyADonor.getLabel()))
         {
             this.setVisible(false);
             register.loginWindow.setVisible(true);
         }
+
         if(command.equals(searchBtn.getLabel()))
         {
             //this.setVisible(false);
             //register.searchResultWindow.setVisible(true);
-            donorRepo.loadDonors("select * from BloodDonor.User where BloodGroup = \"B+\";");
+            donorRepo.ClearDonor();
+            
+            // Triggers frame regarding blood group
+            switch(search.getText()) {
+                case "A+" :
+                    TriggerFrame();
+                    break;
+                case "A-" :
+                    TriggerFrame();
+                    break;
+                case "AB+" :
+                    TriggerFrame();
+                    break;
+                case "AB-" :
+                    TriggerFrame();
+                    break;
+                case "B+" :
+                    TriggerFrame();
+                    break;
+                case "B-" :
+                    TriggerFrame();
+                    break;
+                case "O+" :
+                    TriggerFrame();
+                    break;
+                case "O-" :
+                    TriggerFrame();
+                    break;
+                default :
+                    notificationLabel.setText("Invalid Blood Group");
+                    notificationLabel.setBackground(Color.RED);
+                    notificationLabel.setVisible(true);
+            }
+                
+        }
+    }
+
+    public void TriggerFrame()
+    {
+        try
+        {
+            donorRepo.loadDonors("select * from BloodDonor.User where BloodGroup = \""+search.getText()+"\";");
             Donor matchedGroup[] = donorRepo.ReturnDonors();
             SearchResultWindow searchResult = new SearchResultWindow(matchedGroup, register);
             this.setVisible(false);
             searchResult.setVisible(true);
-            // for(Donor d : matchedGroup)
-            // {
-            //     if(d != null)
-            //     {
-            //         d.print();
-            //     }
-            // }
+        }catch(Exception e)
+        {
+            notificationLabel.setText("No donor found");
+            notificationLabel.setBackground(Color.RED);
+            notificationLabel.setVisible(true);
         }
+        
     }
     public void windowActivated(WindowEvent e){}
 	public void windowClosed(WindowEvent e){}

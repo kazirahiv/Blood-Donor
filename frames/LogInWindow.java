@@ -169,6 +169,7 @@ public class LogInWindow extends Base implements ActionListener {
                         System.out.println("Authentication Successful");
                         donor.donor.print();
                         if(donor.donor == null){ System.out.println("Donor is null");}
+                        donorRepo.ClearDonor();
                         ProfileWindow profile = new ProfileWindow(donor.donor, register);
                         this.setVisible(false);
                         profile.setVisible(true);

@@ -1,52 +1,45 @@
 package frames;
 import register.*;
-import entities.*;
+import bindmodels.*;
 import java.awt.*;
-import java.awt.Rectangle;
 import java.awt.event.*;
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class SearchResultWindow extends Base implements ActionListener {
+public class MessageResultWindow extends Base implements ActionListener {
     private Register register;
-    private Font font;
     public int arrCount;
-    private int totalDonors = 0;
-    private Donor matchedDonors[];
-    private Donor currentDonor;
+    private int totalMessages = 0;
+    private Message matchedMessages[];
+    private Message currentMessage;
+    private TextArea messageText;
     public Button signup, back, sendEmail, sendMessage, next, previous;
     private Label titleLabel, nameLabel, phoneLabel, areaLabel, searchResultsForLabel,
-                  nameValue, areaValue, phoneValue, results, count, notificationLabel;
+                  nameValue, messageLabel, results, count, notificationLabel;
 
 
-    public SearchResultWindow(Donor[] matchedDonors ,Register r) {
-        super("Search Results");
+    public MessageResultWindow(Message[] matchedMessages ,Register r) {
+        super("Inbox");
         this.register = r;
-        this.matchedDonors = matchedDonors;
+        this.matchedMessages = matchedMessages;
 
-        //takes the first element in array as current donor 
+        //takes the first element in array as current Message 
         //to show inital result 
         arrCount = 0;
-        currentDonor = matchedDonors[arrCount];
+        currentMessage = matchedMessages[arrCount];
 
-        //total donors in array
-        for(Donor d : matchedDonors)
+        //total Messages in array
+        for(Message d : matchedMessages)
             {
                 if(d != null)
                 {
-                   totalDonors++;
+                   totalMessages++;
                 }
             }
-
-
         
         // Setting Window Size
         setSize(800, 420);
-
-        // Setting Font
-        font = new Font("Consolas", Font.PLAIN, 20);
 
         // Setting Layout As null because we wont use a layout
         setLayout(null);
@@ -56,43 +49,34 @@ public class SearchResultWindow extends Base implements ActionListener {
 
 
         // titlelabel
-        titleLabel = new Label("Search Results");
+        titleLabel = new Label("Messages ");
         titleLabel.setFont(new Font("Consolas", Font.BOLD, 30));
         titleLabel.setBounds(50, 68, 250, 40);
 
         // name label
-        nameLabel = new Label("Name  :");
+        nameLabel = new Label("Sender  :");
         nameLabel.setFont(new Font("Consolas", Font.BOLD, 20));
-        nameLabel.setBounds(72, 175, 90, 20);
+        nameLabel.setBounds(72, 175, 110, 20);
 
         // name value
-        nameValue = new Label(currentDonor.getName());
+        nameValue = new Label(currentMessage.getName());
         nameValue.setFont(new Font("Consolas", Font.PLAIN, 20));
         nameValue.setBounds(180, 175, 240, 20);
-        
-        //phone label
-        phoneLabel = new Label("Phone :");
-        phoneLabel.setFont(new Font("Consolas", Font.BOLD, 20));
-        phoneLabel.setBounds(72, 220, 90, 20);
 
-        //phone value 
-        phoneValue = new Label(currentDonor.getPhoneNumber());
-        phoneValue.setFont(new Font("Consolas", Font.PLAIN, 20));
-        phoneValue.setBounds(180, 220, 240, 20);
+        //message label
+        messageLabel = new Label("Message :");
+        messageLabel.setFont(new Font("Consolas", Font.BOLD, 20));
+        messageLabel.setBounds(72, 200, 110, 20);
 
-        //area label
-        areaLabel = new Label("Area  :");
-        areaLabel.setFont(new Font("Consolas", Font.BOLD, 20));
-        areaLabel.setBounds(72, 260, 90, 20);
-
-        //area value 
-        areaValue = new Label(currentDonor.getAddressArea());
-        areaValue.setFont(new Font("Consolas", Font.PLAIN, 20));
-        areaValue.setBounds(180, 260, 240, 20);
+        //message textfield
+        messageText = new TextArea();
+        messageText.setBounds(61, 235, 485, 115);
+        messageText.setText(currentMessage.getMessage());
+        messageText.setEditable(false);
 
         // search results for label
         searchResultsForLabel = new Label();
-        searchResultsForLabel.setText("Search Results For .....");
+        searchResultsForLabel.setText("Your Messages .....");
         searchResultsForLabel.setFont(new Font("Consolas", Font.PLAIN, 18));
         searchResultsForLabel.setBounds(50, 125, 250, 18);
 
@@ -101,47 +85,35 @@ public class SearchResultWindow extends Base implements ActionListener {
         back.setFont(new Font("Consolas", Font.BOLD, 12));
         back.setBounds(630,370, 150, 30);
         back.addActionListener(this);
-
-        //send mail button 
-        sendEmail = new Button("E-Mail");
-        sendEmail.setFont(new Font("Consolas", Font.BOLD, 16));
-        sendEmail.setBounds(448, 174, 100, 40);
-
-
-        //send Message 
-        sendMessage = new Button("Message");
-        sendMessage.setFont(new Font("Consolas", Font.BOLD, 16));
-        sendMessage.setBounds(448, 245, 100, 40);
-        sendMessage.addActionListener(this);
         
         //previous button
         previous = new Button("Previous");
         previous.setFont(new Font("Consolas", Font.BOLD, 12));
-        previous.setBounds(350, 310, 100, 30);
+        previous.setBounds(350, 365, 100, 30);
         previous.addActionListener(this);
 
         //next button
         next = new Button("Next");
         next.setFont(new Font("Consolas", Font.BOLD, 12));
-        next.setBounds(456, 310, 100, 30);
+        next.setBounds(456, 365, 100, 30);
         next.addActionListener(this);
 
         //count label
         count = new Label();
-        count.setText( String.valueOf(totalDonors));
+        count.setText(String.valueOf(totalMessages) );
         count.setFont(new Font("Consolas", Font.PLAIN, 50));
         count.setBounds(605, 196, 60, 50);
 
         //results label
         results = new Label();
-        results.setText("Results Found !!");
+        results.setText("Messages Found !!");
         results.setFont(new Font("Consolas", Font.PLAIN, 13));
         results.setBounds(672, 222, 100, 13);
 
         // notification Label
         notificationLabel = new Label("");
         notificationLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
-        notificationLabel.setBounds(576, 66, 200, 20);
+        notificationLabel.setBounds(556, 66, 250, 20);
         notificationLabel.setBackground(new Color(110,224,44));
         notificationLabel.setVisible(false);
 
@@ -149,19 +121,15 @@ public class SearchResultWindow extends Base implements ActionListener {
         add(titleLabel);
         add(back);
         add(searchResultsForLabel);
-        add(sendEmail);
-        add(sendMessage);
         add(previous);
         add(next);
         add(nameLabel);
-        add(phoneLabel);
-        add(areaLabel);
         add(nameValue);
-        add(phoneValue);
-        add(areaValue);
         add(count);
         add(results);
         add(notificationLabel);
+        add(messageLabel);
+        add(messageText);
         // Will be using this to get
         // coordinate in window for placing components
         addMouseListener(new MouseAdapter() {
@@ -176,24 +144,21 @@ public class SearchResultWindow extends Base implements ActionListener {
     public void refresh()
     {
         nameValue.setText("");
-        areaValue.setText("");
-        phoneValue.setText("");
-
-        nameValue.setText(currentDonor.getName());
-        areaValue.setText(currentDonor.getAddressArea());
-        phoneValue.setText(currentDonor.getPhoneNumber());
+        messageText.setText("");
+        nameValue.setText(currentMessage.getName());
+        messageText.setText(currentMessage.getMessage());
     }
 
     public void next()
     {
-        if(arrCount + 1 < totalDonors)
+        if(arrCount + 1 < totalMessages)
         {
             notificationLabel.setVisible(false);
             arrCount++;
-            currentDonor = matchedDonors[arrCount];
+            currentMessage = matchedMessages[arrCount];
         }else
         {
-            notificationLabel.setText("No more donor found");
+            notificationLabel.setText("No more Message found");
             notificationLabel.setBackground(Color.RED);
             notificationLabel.setVisible(true);
         }
@@ -205,10 +170,10 @@ public class SearchResultWindow extends Base implements ActionListener {
         {
             notificationLabel.setVisible(false);
             arrCount--;
-            currentDonor = matchedDonors[arrCount];
+            currentMessage = matchedMessages[arrCount];
         }else
         {
-            notificationLabel.setText("No more donor found");
+            notificationLabel.setText("No more Message found");
             notificationLabel.setBackground(Color.RED);
             notificationLabel.setVisible(true);
         }
@@ -217,9 +182,7 @@ public class SearchResultWindow extends Base implements ActionListener {
     public void paint(Graphics g) {
         g.drawLine(50, 112, 327, 112);
         g.drawLine(50, 114, 329, 114);
-        g.drawRect(53, 152, 500, 150);
-        g.drawLine(443, 153, 443, 302);
-        g.drawLine(443, 229, 552, 229);
+        g.drawRect(53, 152, 500, 200);
     }
 
     // Close on hitting Window Close Button
@@ -239,22 +202,15 @@ public class SearchResultWindow extends Base implements ActionListener {
         if (command.equals(next.getLabel()))
         {
             next();
-            currentDonor.print();
+            currentMessage.print();
             refresh();
         }
 
         if (command.equals(previous.getLabel()))
         {
             back();
-            currentDonor.print();
+            currentMessage.print();
             refresh();
-        }
-        if (command.equals(sendMessage.getLabel()))
-        {
-            this.setVisible(false);
-            MessageWindow messageWindow = new MessageWindow(currentDonor.getId(), register);
-            this.setVisible(false);
-            messageWindow.setVisible(true);
         }
     }
 

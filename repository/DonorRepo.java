@@ -60,6 +60,19 @@ public class DonorRepo {
 		return this.donorList;
 	}
 
+	public void ClearDonor()
+	{
+		donorList = null;
+		donorList = new Donor[20];	
+	}
+
+	public void RefreshDonor()
+	{
+		donorList = null;
+		donorList = new Donor[20];	
+		loadDonors("SELECT * FROM BloodDonor.User;");
+	}
+
 	public void addDonor(Donor d) {
 		for (int i = 0; i < donorList.length; i++) {
 			if (donorList[i] == null) {

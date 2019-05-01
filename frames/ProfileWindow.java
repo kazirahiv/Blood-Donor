@@ -1,6 +1,7 @@
 package frames;
 import register.*;
 import entities.*;
+import bindmodels.*;
 import java.awt.*;
 import java.awt.Rectangle;
 import java.awt.event.*;
@@ -13,18 +14,20 @@ public class ProfileWindow extends Base implements ActionListener {
     private Register register;
     private Donor donor;
     private Font font;
-    private Button signup, back;
+    private Button signup, back, inbox;
     private TextField userNameTf, passwordTf, phoneTf, emailTf, addressTf;
     private Label titleLabel, usernameLabel, phoneLabel, emailLabel,addressLabel, passwordLabel, notificationLabel;
     private Checkbox APlus, AMinus, ABPlus, ABMinus, BPlus, BMinus, OPlus, OMinus;
     private CheckboxGroup bloodGroups;
     private String selectedBGroup = null;
+    private int userMessageCount; 
 
     public ProfileWindow(Donor d, Register r) {
         super("User Profile");
         System.out.println("This Is Profile Window");
         this.donor = d;
         this.register = r;
+        this.userMessageCount =  messageRepo.GetMessageCount(donor.getId());
         // Setting Window Size
         setSize(800, 420);
         // Setting Font
@@ -96,13 +99,17 @@ public class ProfileWindow extends Base implements ActionListener {
         // notification Label
         notificationLabel = new Label("");
         notificationLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
-        notificationLabel.setBounds(576, 66, 200, 20);
+        notificationLabel.setBounds(576, 46, 200, 20);
         notificationLabel.setBackground(new Color(110,224,44));
         notificationLabel.setVisible(false);
 
+        //inbox button 
+        inbox = new Button("You have ("+ userMessageCount +") Messages");
+        inbox.setBounds(351, 72, 440, 40);
+        inbox.setFont(new Font("Consolas", Font.PLAIN, 20));
+        inbox.addActionListener(this);
 
         // checkbox group
-
         bloodGroups = new CheckboxGroup();
 
         // checkboxes
@@ -357,7 +364,7 @@ public class ProfileWindow extends Base implements ActionListener {
         add(addressTf);
         add(notificationLabel);
 
-
+        add(inbox);
         // Will be using this to get
         // coordinate in window for placing components
         addMouseListener(new MouseAdapter() {
@@ -420,7 +427,6 @@ public class ProfileWindow extends Base implements ActionListener {
                     // addressTf.setText("");
                     // bloodGroups.setSelectedCheckbox(null);
                     validationPass = false;
-
                     notificationLabel.setBackground(Color.GREEN);
                     notificationLabel.setText("Database Updated !");
                     notificationLabel.setVisible(true);
@@ -443,6 +449,26 @@ public class ProfileWindow extends Base implements ActionListener {
                 notificationLabel.setVisible(true);
             }
             
+        }
+    
+        if(command.equals(inbox.getLabel()))
+        {
+            if( userMessageCount >0 )
+            {
+                Message[] messages = messageRepo.GetMessages();
+                for (Message m : messages) {
+                    if (m != null) {
+                        m.print();
+                    }
+                }
+                if(messages !=null && register != null){
+                    System.out.println("These are not null");
+                    MessageResultWindow messageResult = new MessageResultWindow(messages,register);
+                    this.setVisible(false);
+                    messageResult.setVisible(true);
+                }
+                
+            }
         }
     }
 
