@@ -1,4 +1,5 @@
 package frames;
+import entities.*;
 import register.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -35,10 +36,12 @@ public class IndexWindow extends Base implements ActionListener
         search.setBounds(243, 193, 300, 30);
         search.setText("Search Here .....");
         search.setFont(new Font("Consolas", Font.PLAIN, 12));
+
         //SearchButton
         searchBtn = new Button("Search");
         searchBtn.setBounds(341,240, 100, 30);
         searchBtn.setFont(new Font("Consolas", Font.PLAIN, 15));
+        searchBtn.addActionListener(this);
 
         //signupButton
 
@@ -88,6 +91,23 @@ public class IndexWindow extends Base implements ActionListener
         {
             this.setVisible(false);
             register.loginWindow.setVisible(true);
+        }
+        if(command.equals(searchBtn.getLabel()))
+        {
+            //this.setVisible(false);
+            //register.searchResultWindow.setVisible(true);
+            donorRepo.loadDonors("select * from BloodDonor.User where BloodGroup = \"B+\";");
+            Donor matchedGroup[] = donorRepo.ReturnDonors();
+            SearchResultWindow searchResult = new SearchResultWindow(matchedGroup, register);
+            this.setVisible(false);
+            searchResult.setVisible(true);
+            // for(Donor d : matchedGroup)
+            // {
+            //     if(d != null)
+            //     {
+            //         d.print();
+            //     }
+            // }
         }
     }
     public void windowActivated(WindowEvent e){}

@@ -35,8 +35,12 @@ public class Donor
     //public void setUserId(String id){this.id = id;}
     //public void setPassword(String password){this.password = password;}
 	//public void setStatus(int status){this.status = status;}
-	
-	public String getEmail(){return email;}
+	public int getId(){ return id; }
+	public String getName(){ return name; }
+	public String getAddressArea(){ return addressArea; }
+	public String getPhoneNumber() { return phoneNumber; }
+	public String getEmail(){ return email; }
 	public String getPassword(){return password;}
+	
 	//public int getStatus(){return status;}
 }

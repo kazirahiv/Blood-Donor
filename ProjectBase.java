@@ -5,7 +5,7 @@ public class ProjectBase{
 		Register r=new Register();
         r.indexWindow =new IndexWindow(r);
         r.signupWindow = new SignupWindow(r);
-        //r.profileWindow = new ProfileWindow(r);
+        //r.searchResultWindow = new SearchResultWindow(r);
         r.loginWindow = new LogInWindow(r);
         r.indexWindow.setVisible(true);
     }
